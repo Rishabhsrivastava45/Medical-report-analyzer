@@ -19,7 +19,7 @@ app = FastAPI(title="Medical Report Analyzer API")
 
 # Setup static files
 STATIC_DIR = os.path.join(os.path.dirname(__file__), "..", "frontend", "static")
-os.makedirs(STATIC_DIR, exist_ok=True)
+# os.makedirs(STATIC_DIR, exist_ok=True)
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 # Auth Schemas & Dependency
