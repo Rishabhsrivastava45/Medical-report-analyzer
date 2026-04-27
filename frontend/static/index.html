@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedAnalyzer Pro | Professional Medical Report Analysis</title>
+    <link rel="stylesheet" href="/static/style.css?v=2">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-heart-pulse"></i>
+                <span>MedAnalyzer Pro</span>
+            </div>
+            <nav>
+                <a href="#" class="nav-link active" data-view="dashboard"><i class="fas fa-columns"></i> Dashboard</a>
+                <a href="#" class="nav-link" data-view="reports"><i class="fas fa-file-medical"></i> My Reports</a>
+                <a href="#" class="nav-link" data-view="consult"><i class="fas fa-user-md"></i> Consult</a>
+                <a href="#" class="nav-link" data-view="privacy"><i class="fas fa-shield-alt"></i> Privacy</a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="profile-wrapper" id="profile-wrapper">
+                    <button class="profile-button" id="profile-btn">
+                        <img src="https://ui-avatars.com/api/?name=User&background=2563eb&color=fff" alt="User" id="user-avatar" style="width: 36px; height: 36px; border-radius: 50%;">
+                        <div class="user-info">
+                            <span class="user-name" id="user-name-display">Loading...</span>
+                            <span class="user-status">Pro Account</span>
+                        </div>
+                    </button>
+                    
+                    <div class="profile-dropdown" id="profile-dropdown">
+                        <div class="dropdown-header">
+                            <span class="name" id="dropdown-name">Loading...</span>
+                        </div>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-cog" style="width: 20px;"></i> Settings
+                        </a>
+                        <div class="dropdown-item theme-toggle">
+                            <span><i class="fas fa-moon" style="width: 20px;"></i> Dark Mode</span>
+                            <label class="switch">
+                                <input type="checkbox" id="theme-switch">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <button class="dropdown-item danger" id="logout-btn">
+                            <i class="fas fa-sign-out-alt" style="width: 20px;"></i> Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search test results...">
+                </div>
+                <div class="top-actions">
+                    <button class="icon-btn"><i class="far fa-bell"></i></button>
+                    <button class="primary-btn" id="new-analysis-btn"><i class="fas fa-plus"></i> New Analysis</button>
+                </div>
+            </header>
+
+            <div class="content-body view-section" id="dashboard-view">
+                <div class="welcome-section">
+                    <h1>Medical Intelligence Dashboard</h1>
+                    <p>Comprehensive AI-powered health monitoring and report analysis.</p>
+                </div>
+
+                <!-- Vitals Summary Section -->
+                <div class="vitals-grid">
+                    <div class="vitals-card">
+                        <div class="vitals-icon heart"><i class="fas fa-heartbeat"></i></div>
+                        <div class="vitals-info">
+                            <span class="vitals-label">Heart Rate</span>
+                            <span class="vitals-value">72 <small>bpm</small></span>
+                        </div>
+                    </div>
+                    <div class="vitals-card">
+                        <div class="vitals-icon pressure"><i class="fas fa-gauge-high"></i></div>
+                        <div class="vitals-info">
+                            <span class="vitals-label">Blood Pressure</span>
+                            <span class="vitals-value">120/80 <small>mmHg</small></span>
+                        </div>
+                    </div>
+                    <div class="vitals-card">
+                        <div class="vitals-icon o2"><i class="fas fa-droplet"></i></div>
+                        <div class="vitals-info">
+                            <span class="vitals-label">Blood Oxygen</span>
+                            <span class="vitals-value">98 <small>%</small></span>
+                        </div>
+                    </div>
+                    <div class="vitals-card">
+                        <div class="vitals-icon temp"><i class="fas fa-temperature-half"></i></div>
+                        <div class="vitals-info">
+                            <span class="vitals-label">Temp</span>
+                            <span class="vitals-value">98.6 <small>°F</small></span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="dashboard-grid">
+                    <!-- Upload Card -->
+                    <div class="card upload-card" id="upload-zone">
+                        <div class="upload-content">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <h3>Upload Medical Report</h3>
+                            <p>Drag and drop your PDF or Image (JPG, PNG) here</p>
+                            <input type="file" id="file-input" hidden accept=".pdf,.jpg,.jpeg,.png">
+                            <button class="outline-btn" onclick="document.getElementById('file-input').click()">Browse Files</button>
+                        </div>
+                        <div id="upload-status" class="status-indicator"></div>
+                    </div>
+
+                    <!-- Info Cards -->
+                    <div class="card info-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-info-circle"></i> Quick Guide</h3>
+                        </div>
+                        <ul class="guide-list">
+                            <li><i class="fas fa-check"></i> Lab results (CBC, LFT, KFT)</li>
+                            <li><i class="fas fa-check"></i> Radiology reports (X-Ray, MRI)</li>
+                            <li><i class="fas fa-check"></i> Discharge summaries</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Results Section (Hidden initially) -->
+                <div id="results-view" class="results-container hidden">
+                    <div class="results-header">
+                        <h2>Report Analysis Details</h2>
+                        <button class="primary-btn pdf-btn" id="print-btn" onclick="triggerServerDownload()"><i class="fas fa-file-download"></i> Download Report (PDF)</button>
+                    </div>
+                    <div class="analysis-card card">
+                        <div id="analysis-content" class="markdown-body">
+                            <!-- AI Content Injection -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reports View -->
+            <div class="content-body hidden view-section" id="reports-view">
+                <div class="welcome-section">
+                    <h1>My Reports</h1>
+                    <p>Access and review your past medical analysis reports.</p>
+                </div>
+                <div class="reports-grid" id="reports-grid">
+                    <div class="loader-spinner" style="margin: 2rem auto; display: block;"></div>
+                </div>
+            </div>
+
+            <!-- Consult View -->
+            <div class="content-body hidden view-section" id="consult-view">
+                <div class="welcome-section">
+                    <h1>Consult a Doctor</h1>
+                    <p>Connect with professional healthcare providers.</p>
+                </div>
+                <div class="card" style="text-align: center; padding: 4rem 2rem;">
+                    <i class="fas fa-user-md" style="font-size: 4rem; color: var(--primary-color); margin-bottom: 1.5rem;"></i>
+                    <h2>Teleconsultation Coming Soon</h2>
+                    <p style="color: var(--text-muted); margin-top: 1rem; margin-bottom: 2rem;">We are working on bringing top medical professionals directly to you. Stay tuned for seamless video consultations and appointment bookings.</p>
+                    <button class="primary-btn" style="margin: 0 auto;">Notify Me</button>
+                </div>
+            </div>
+
+            <!-- Privacy View -->
+            <div class="content-body hidden view-section" id="privacy-view">
+                <div class="welcome-section">
+                    <h1>Data Privacy & Security</h1>
+                    <p>Your medical data is encrypted and securely stored.</p>
+                </div>
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <h3 style="margin-bottom: 1rem;"><i class="fas fa-lock" style="color: #10b981;"></i> Data Encryption</h3>
+                    <p style="color: var(--text-muted); line-height: 1.6;">Our platform employs end-to-end encryption to ensure that your medical records and analysis results remain strictly confidential and are only accessible by you.</p>
+                </div>
+                <div class="card">
+                    <h3 style="margin-bottom: 1rem;"><i class="fas fa-server" style="color: var(--primary-color);"></i> Secure Storage</h3>
+                    <p style="color: var(--text-muted); line-height: 1.6;">We use industry-leading secure cloud architecture to store your data, preventing any unauthorized access or breaches.</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- Chat Sidebar -->
+        <aside class="chat-sidebar mini-chat" id="chat-sidebar">
+            <div class="chat-header">
+                <h3><i class="fas fa-comment-medical"></i> AI Health Assistant</h3>
+                <button id="close-chat"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="chat-messages" id="chat-messages">
+                <div class="message system-message">
+                    Hello! I'm your medical assistant. Upload a report, and I'll help you understand it.
+                </div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="chat-input" placeholder="Ask about your report...">
+                <button id="send-chat"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loader" class="loader-overlay hidden">
+        <div class="loader-spinner"></div>
+        <p>Analyzing your report with AI...</p>
+    </div>
+
+    <script src="/static/html2pdf.bundle.min.js"></script>
+    <script src="/static/script.js?v=3"></script>
+</body>
+</html>

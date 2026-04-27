@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+python-multipart
+fpdf
+openai
+langgraph
+langchain-core
+PyPDF2
+python-dotenv
+bcrypt
+pyjwt
+email-validator
+motor
+certifi
+pydantic
