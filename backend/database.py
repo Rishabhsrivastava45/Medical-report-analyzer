@@ -22,6 +22,10 @@ class Database:
     def __init__(self):
         self.use_mock = False
         try:
+            if not MONGODB_URI:
+                print("MONGODB_URI not set, using in-memory mock.")
+                self.use_mock = True
+                return
             self.client = AsyncIOMotorClient(MONGODB_URI, tlsAllowInvalidCertificates=True, connectTimeoutMS=2000, serverSelectionTimeoutMS=2000)
             self.db = self.client[DATABASE_NAME]
             # Collections

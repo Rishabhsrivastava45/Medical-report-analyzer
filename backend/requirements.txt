@@ -13,3 +13,4 @@ email-validator
 motor
 certifi
 pydantic
+dnspython
