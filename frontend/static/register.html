@@ -107,6 +107,32 @@
             color: var(--text-main);
             border-color: var(--border-color);
         }
+        /* Password Toggle Styles */
+        .password-toggle-container {
+            position: relative;
+            width: 100%;
+        }
+        .password-toggle-container input {
+            padding-right: 3rem !important;
+        }
+        .password-toggle {
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #64748b;
+            cursor: pointer;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+        .password-toggle:hover {
+            color: #2563eb;
+        }
     </style>
 </head>
 <body>

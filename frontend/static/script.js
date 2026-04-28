@@ -134,14 +134,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderAnalysis(text) {
         if(!text) return;
-        const formattedText = text
-            .replace(/## (.*)/g, '<h3>$1</h3>')
-            .replace(/\d\. (.*):/g, '<strong>$1</strong>')
-            .replace(/\n\n/g, '<br><br>');
-            
-        analysisContent.innerHTML = formattedText;
+        
+        // 1. Process Risk Level for visual badge
+        let processedText = text;
+        const riskMatch = text.match(/\[RISK_LEVEL:\s*(LOW|MODERATE|HIGH)\]/i);
+        
+        if (riskMatch) {
+            const level = riskMatch[1].toUpperCase();
+            const badgeClass = `risk-${level.toLowerCase()}`;
+            const riskHtml = `
+                <div class="risk-level-container">
+                    <span style="font-weight: 600; color: var(--text-muted);">Assessed Risk Level:</span>
+                    <span class="risk-badge ${badgeClass}">${level}</span>
+                </div>
+            `;
+            processedText = text.replace(/\[RISK_LEVEL:.*\]/i, riskHtml);
+        }
+
+        // 2. Use marked for rich markdown rendering
+        analysisContent.innerHTML = marked.parse(processedText);
+        
+        // Highlight abnormal cells in tables
+        const cells = analysisContent.querySelectorAll('td');
+        cells.forEach(cell => {
+            const text = cell.textContent.toLowerCase();
+            if (text.includes('high') || text.includes('low') || text.includes('abnormal') || text.includes('reactive')) {
+                cell.style.color = 'var(--danger)';
+                cell.style.fontWeight = '700';
+            }
+        });
+        
+        // 3. UI feedback
         resultsView.classList.remove('hidden');
-        resultsView.scrollIntoView({ behavior: 'smooth' });
+        
+        // Smooth scroll to results with a small offset
+        setTimeout(() => {
+            const yOffset = -20; 
+            const y = resultsView.getBoundingClientRect().top + window.pageYOffset + yOffset;
+            window.scrollTo({top: y, behavior: 'smooth'});
+        }, 100);
     }
 
     // --- CHAT LOGIC ---
@@ -183,7 +214,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function addMessage(text, type) {
         const msgDiv = document.createElement('div');
         msgDiv.className = `message ${type}-message`;
-        msgDiv.textContent = text;
+        if (type === 'bot') {
+            msgDiv.innerHTML = marked.parse(text);
+        } else {
+            msgDiv.textContent = text;
+        }
         chatMessages.appendChild(msgDiv);
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
